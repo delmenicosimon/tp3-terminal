@@ -2,8 +2,12 @@ package terminal.modelo;
 
 import java.util.List;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Queue;
 import java.util.ArrayDeque;
+=======
+import java.util.Optional;
+>>>>>>> 58da7ce (Servicio v1)
 
 public class Servicio {
 	private String codigo;
@@ -13,7 +17,10 @@ public class Servicio {
 	private int cantAsientos;
 	private double precio;
 	private List<Pasaje> pasajes;
+<<<<<<< HEAD
 	private Queue<Pasajero> listaDeEspera;
+=======
+>>>>>>> 58da7ce (Servicio v1)
 
 	public Servicio(String codigo, String empresa, String destino, String horario, int cantAsientos, double precio) {
 		this.codigo = codigo.trim().toUpperCase();
@@ -23,12 +30,20 @@ public class Servicio {
 		setCantAsientos(cantAsientos);
 		setPrecio(precio);
 		crearPasajes();
+<<<<<<< HEAD
 		this.listaDeEspera = new ArrayDeque<>();
+=======
+>>>>>>> 58da7ce (Servicio v1)
 	}
 
 	private void setCantAsientos(int cantAsientos) {
 		if (cantAsientos <= 0) {
+<<<<<<< HEAD
 			throw new IllegalArgumentException("No se pueden tener 0 o menos asientos");
+=======
+			this.cantAsientos = 1;
+			return;
+>>>>>>> 58da7ce (Servicio v1)
 		}
 		this.cantAsientos = cantAsientos;
 	}
@@ -72,6 +87,7 @@ public class Servicio {
 		}
 	}
 
+<<<<<<< HEAD
 	public void devolverPasaje(int nroAsiento) {
 		if (nroAsiento >= this.pasajes.size() || nroAsiento <= 0) {
 			throw new IndexOutOfBoundsException(
@@ -124,5 +140,9 @@ public class Servicio {
 		}catch(IndexOutOfBoundsException e){
 			System.out.println(e.getMessage());
 		}
+=======
+	public Optional<Pasaje> devolverPasaje(int nroAsiento) {
+		return Optional.ofNullable(this.pasajes.get(nroAsiento - 1));
+>>>>>>> 58da7ce (Servicio v1)
 	}
 }
