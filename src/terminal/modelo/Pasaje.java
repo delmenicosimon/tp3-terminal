@@ -24,4 +24,16 @@ public class Pasaje {
         this.numAsiento = numAsiento;
     }
 
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public boolean asientoLibre(){
+        if(dni == null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 }
