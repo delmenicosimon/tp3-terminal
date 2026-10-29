@@ -12,6 +12,7 @@ public class Servicio {
 	private int cantAsientos;
 	private double precio;
 	private List<Pasaje> pasajes;
+	private Queue<Pasajero> listaDeEspera;
 
 	public Servicio(String codigo, String empresa, String destino, String horario, int cantAsientos, double precio) {
 		this.codigo = codigo.trim().toUpperCase();
