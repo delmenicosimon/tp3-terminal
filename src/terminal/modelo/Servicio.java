@@ -78,9 +78,12 @@ public class Servicio {
 			throw new IndexOutOfBoundsException(
 					"Cantidad de asientos : " + cantAsientos + ", asiento devuelto: " + nroAsiento);
 		}
+		Pasaje pasaje = this.pasajes.get(nroAsiento - 1);
 		if (this.listaDeEspera.peek() != null) {
 			Pasajero pasajero = this.listaDeEspera.poll();
-			this.pasajes.get(nroAsiento - 1);
+			pasaje.setDni(pasajero.getdni());
+		} else {
+			pasaje.setDni(null);
 		}
 	}
 }
