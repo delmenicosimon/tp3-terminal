@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.ArrayDeque;
-import java.util.Optional;
 
 public class Servicio {
 	private String codigo;
@@ -85,5 +84,14 @@ public class Servicio {
 		} else {
 			pasaje.setDni(null);
 		}
+	}
+
+	public Pasaje getPasaje() throws AsientoOcupadoException{
+		for(Pasaje pasaje : this.pasajes){
+			if(pasaje.asientoLibre()){
+				return pasaje;
+			}
+		}
+		throw new AsientoOcupadoException(pasaje.getDni(), pasaje.getNumAsiento());
 	}
 }
