@@ -24,6 +24,10 @@ public class Pasaje {
         this.numAsiento = numAsiento;
     }
 
+    public String getDni() {
+        return dni;
+    }
+
     public void setDni(String dni) {
         this.dni = dni;
     }
