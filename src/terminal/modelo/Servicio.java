@@ -23,6 +23,7 @@ public class Servicio {
 		setCantAsientos(cantAsientos);
 		setPrecio(precio);
 		crearPasajes();
+		this.listaDeEspera = new ArrayDeque<>();
 	}
 
 	private void setCantAsientos(int cantAsientos) {
