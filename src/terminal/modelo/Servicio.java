@@ -92,6 +92,15 @@ public class Servicio {
 				return pasaje;
 			}
 		}
-		throw new AsientoOcupadoException(pasaje.getDni(), pasaje.getNumAsiento());
+		throw new AsientoOcupadoException();
+	}
+	
+	public Pasaje getPasaje(int nroAsiento) throws AsientoOcupadoException{
+		for(Pasaje pasaje : this.pasajes){
+			if(pasaje.getNumAsiento() == nroAsiento && pasaje.asientoLibre()){
+				return pasaje;
+			}
+		}
+		throw new AsientoOcupadoException(nroAsiento);
 	}
 }

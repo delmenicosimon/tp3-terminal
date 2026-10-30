@@ -1,7 +1,10 @@
 package terminal.modelo;
 
 public class AsientoOcupadoException extends Exception{
-    public AsientoOcupadoException(String dni, int nroAsiento){
-        super("Asiento numero : " + nroAsiento + " Ocupado por : " + dni);
+    public AsientoOcupadoException( int nroAsiento){
+        super("Asiento numero : " + nroAsiento + " esta ocupado.");
+    }
+    public AsientoOcupadoException(){
+        super("No hay asientos libres.");
     }
 }
