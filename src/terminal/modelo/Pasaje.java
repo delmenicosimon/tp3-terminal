@@ -5,11 +5,11 @@ public class Pasaje {
     private String dni;
     
     public Pasaje(int numAsiento){
-        this.numAsiento = numAsiento;
+        setNumAsiento(numAsiento);
     }
 
     public Pasaje(int numAsiento, String dni){
-        this.numAsiento = numAsiento;
+        this(numAsiento);
         this.dni = dni.trim();
     }
 
@@ -24,4 +24,19 @@ public class Pasaje {
         this.numAsiento = numAsiento;
     }
 
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public boolean asientoLibre(){
+        if(dni == null){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
