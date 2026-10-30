@@ -28,8 +28,7 @@ public class Servicio {
 
 	private void setCantAsientos(int cantAsientos) {
 		if (cantAsientos <= 0) {
-			this.cantAsientos = 1;
-			return;
+			throw new IllegalArgumentException("No se pueden tener 0 o menos asientos");
 		}
 		this.cantAsientos = cantAsientos;
 	}
@@ -103,5 +102,13 @@ public class Servicio {
 			}
 		}
 		throw new AsientoOcupadoException(nroAsiento);
+	}
+
+	public void setEspera(Pasajero pasajero){
+		try{
+			this.listaDeEspera.offer(pasajero);
+		}catch(IndexOutOfBoundsException e){
+			System.out.println(e.getMessage());
+		}
 	}
 }
