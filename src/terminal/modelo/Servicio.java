@@ -2,6 +2,8 @@ package terminal.modelo;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.ArrayDeque;
 import java.util.Optional;
 
 public class Servicio {
@@ -71,7 +73,14 @@ public class Servicio {
 		}
 	}
 
-	public Optional<Pasaje> devolverPasaje(int nroAsiento) {
-		return Optional.ofNullable(this.pasajes.get(nroAsiento - 1));
+	public void devolverPasaje(int nroAsiento) {
+		if (nroAsiento >= this.pasajes.size() || nroAsiento <= 0) {
+			throw new IndexOutOfBoundsException(
+					"Cantidad de asientos : " + cantAsientos + ", asiento devuelto: " + nroAsiento);
+		}
+		if (this.listaDeEspera.peek() != null) {
+			Pasajero pasajero = this.listaDeEspera.poll();
+			this.pasajes.get(nroAsiento - 1);
+		}
 	}
 }
