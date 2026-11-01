@@ -75,7 +75,7 @@ public class Servicio {
 	public void devolverPasaje(int nroAsiento) {
 		if (nroAsiento >= this.pasajes.size() || nroAsiento <= 0) {
 			throw new IndexOutOfBoundsException(
-					"Cantidad de asientos : " + cantAsientos + ", asiento devuelto: " + nroAsiento);
+					"El asiento : " + nroAsiento + " no existe en el servicio : " + this.codigo);
 		}
 		Pasaje pasaje = this.pasajes.get(nroAsiento - 1);
 		if (this.listaDeEspera.peek() != null) {
@@ -92,7 +92,7 @@ public class Servicio {
 				return pasaje;
 			}
 		}
-		throw new AsientoOcupadoException();
+		throw new AsientoOcupadoException(this.codigo);
 	}
 	
 	public Pasaje getPasaje(int nroAsiento) throws AsientoOcupadoException{
@@ -101,7 +101,21 @@ public class Servicio {
 				return pasaje;
 			}
 		}
-		throw new AsientoOcupadoException(nroAsiento);
+		throw new AsientoOcupadoException(this.codigo,nroAsiento);
+	}
+
+	public Pasaje getPasajePorDni(String dni){
+		Pasaje resultado;
+		for(Pasaje pasaje : this.pasajes){
+			if(dni.equals(pasaje.getPasajero()){
+				resultado = pasaje;
+			}
+		}
+		return pasaje;
+	}
+
+	public List<Pasaje> getPasajes(){
+		return this.pasajes;
 	}
 
 	public void setEspera(Pasajero pasajero){
