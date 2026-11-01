@@ -111,7 +111,7 @@ public class Servicio {
 				resultado = pasaje;
 			}
 		}
-		return pasaje;
+		return resultado;
 	}
 
 	public List<Pasaje> getPasajes(){
