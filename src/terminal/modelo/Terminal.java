@@ -1,5 +1,6 @@
 package terminal.modelo;
 import java.util.Map;
+import java.util.Optional;
 import java.util.HashMap;
 
 public class Terminal {
@@ -29,6 +30,29 @@ public class Terminal {
             } catch(AsientoOcupadoException e){
                 System.out.println(e.getMessage());
                 servicio.setEspera(pasajero);
+            }
+        }
+    }
+
+    public Optional<Pasaje> buscarPasaje(String codigoServicio, String dni){
+        Servicio servicio = servicios.get(codigoServicio);
+        if (servicio == null) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(servicio.getPasajePorDni(dni));
+    }
+
+    public void showPasajeros(String codigoServicio) {
+        Servicio servicio = servicios.get(codigoServicio);
+        if (servicio == null) {
+            System.out.println("No se encotro el servicio con el codigo: " + codigoServicio);
+            return;
+        }
+        for(Pasaje pasaje : servicio.getPasajes()){
+            if(pasaje.asientoLibre()) {
+                System.out.println("Asiento: " + pasaje.getNumAsiento() + "esta libre");
+            }else {
+                System.out.println("Asiento: " + pasaje.getNumAsiento() + " DNI Pasajero: " + pasaje.getPasajero() +  "Nombre Pasajero: " pasajero.getnombre);
             }
         }
     }
