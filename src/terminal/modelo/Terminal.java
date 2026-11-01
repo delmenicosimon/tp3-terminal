@@ -52,7 +52,15 @@ public class Terminal {
             if(pasaje.asientoLibre()) {
                 System.out.println("Asiento: " + pasaje.getNumAsiento() + "esta libre");
             }else {
-                System.out.println("Asiento: " + pasaje.getNumAsiento() + " DNI Pasajero: " + pasaje.getPasajero() +  "Nombre Pasajero: " pasajero.getnombre);
+                System.out.println("Asiento: " + pasaje.getNumAsiento() + " DNI Pasajero: " + pasaje.getPasajero() +  "Nombre Pasajero: " pasajero.getNombre);
+            }
+        }
+
+        if (servicio.getListaDeEspera().isEmpty()){
+            System.out.println("La lista de espera esta vacia");
+        }else{
+            for(Pasajero pasajero : servicio.getListaDeEspera()){
+                System.out.println("DNI: " + pasajero.getdni() + "Nombre: " + pasajero.getNombre);
             }
         }
     }
