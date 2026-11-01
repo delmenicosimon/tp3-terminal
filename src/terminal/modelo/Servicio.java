@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.ArrayDeque;
+import java.util.Optional;
 
 public class Servicio {
 	private String codigo;
@@ -12,8 +13,8 @@ public class Servicio {
 	private String horario;
 	private int cantAsientos;
 	private double precio;
-	private List<Pasaje> pasajes;
-	private Queue<Pasajero> listaDeEspera;
+	private ArrayList<Pasaje> pasajes;
+	private ArrayDeque<Pasajero> listaDeEspera;
 
 	public Servicio(String codigo, String empresa, String destino, String horario, int cantAsientos, double precio) {
 		this.codigo = codigo.trim().toUpperCase();
@@ -79,9 +80,9 @@ public class Servicio {
 		Pasaje pasaje = this.pasajes.get(nroAsiento - 1);
 		if (this.listaDeEspera.peek() != null) {
 			Pasajero pasajero = this.listaDeEspera.poll();
-			pasaje.setDni(pasajero.getdni());
+			pasaje.setPasajero(pasajero);
 		} else {
-			pasaje.setDni(null);
+			pasaje.setPasajero(null);
 		}
 	}
 
@@ -103,21 +104,20 @@ public class Servicio {
 		throw new AsientoOcupadoException(this.codigo,nroAsiento);
 	}
 
-	public Pasaje getPasajePorDni(String dni){
-		Pasaje resultado;
+	public Optional<Pasaje> getPasajePorDni(String dni){
 		for(Pasaje pasaje : this.pasajes){
-			if(dni.equals(pasaje.getPasajero()){
-				resultado = pasaje;
+			if(dni.equals(pasaje.getPasajero())){
+				return Optional.isNullable(pasaje);
 			}
 		}
-		return resultado;
+		return Optional.empty();
 	}
 
 	public ArrayDeque<Pasajero> getListaDeEspera(){
 		return this.listaDeEspera;
 	}
 
-	public List<Pasaje> getPasajes(){
+	public ArrayList<Pasaje> getPasajes(){
 		return this.pasajes;
 	}
 
