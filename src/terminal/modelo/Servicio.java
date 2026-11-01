@@ -104,6 +104,20 @@ public class Servicio {
 		throw new AsientoOcupadoException(this.codigo,nroAsiento);
 	}
 
+	public Pasaje getPasajePorDni(String dni){
+		Pasaje resultado;
+		for(Pasaje pasaje : this.pasajes){
+			if(dni.equals(pasaje.getPasajero()){
+				resultado = pasaje;
+			}
+		}
+		return pasaje;
+	}
+
+	public List<Pasaje> getPasajes(){
+		return this.pasajes;
+	}
+
 	public void setEspera(Pasajero pasajero){
 		try{
 			this.listaDeEspera.offer(pasajero);
