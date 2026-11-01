@@ -13,7 +13,12 @@ public class Pasajero {
     }
 
 
-    public String getdni() {
+    public String getNombre() {
+        return dni;
+
+    }
+   
+    public String getDni() {
         return dni;
 
     }
