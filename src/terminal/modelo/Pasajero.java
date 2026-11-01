@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Pasajero {
     private String dni;
-    private  String nombre; 
+    private String nombre; 
 
 
     public Pasajero (String dni, String nombre){
@@ -14,7 +14,7 @@ public class Pasajero {
 
 
     public String getNombre() {
-        return dni;
+        return nombre;
 
     }
    
