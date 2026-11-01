@@ -2,15 +2,10 @@ package terminal.modelo;
 
 public class Pasaje {
     private int numAsiento;
-    private String dni;
+    private Pasajero pasajero;
     
     public Pasaje(int numAsiento){
         setNumAsiento(numAsiento);
-    }
-
-    public Pasaje(int numAsiento, String dni){
-        this(numAsiento);
-        this.dni = dni.trim();
     }
 
     public int getNumAsiento() {
@@ -24,16 +19,16 @@ public class Pasaje {
         this.numAsiento = numAsiento;
     }
 
-    public String getDni() {
-        return dni;
+    public Pasajero getPasajero() {
+        return pasajero;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setPasajero(Pasajero pasajero) {
+        this.pasajero = pasajero;
     }
 
     public boolean asientoLibre(){
-        if(dni == null){
+        if(pasajero == null){
             return true;
         }else{
             return false;
