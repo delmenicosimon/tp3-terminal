@@ -16,13 +16,13 @@ public class Terminal {
         this.servicios.put(servicio.getCodigo(),servicio);
     }
     
-    public void venderPasaje(String codigoServicio, Pasajero pasajero, String asiento){
+    public void venderPasaje(String codigoServicio, Pasajero pasajero, String asiento) throws AsientoOcupadoException{
         Servicio servicio = servicios.get(codigoServicio);
         if(servicio == null){
             throw new ServicioNoExisteException(codigoServicio);
         }
         Optional<Pasaje> pasaje;
-        if(asiento.trim() == "*") {
+        if(asiento.trim().equals("*")) {
             try{
                 pasaje = servicio.getPasaje();
                 if(pasaje.isPresent()){
@@ -30,8 +30,8 @@ public class Terminal {
                 }
                 this.recaudos.put(servicio.getEmpresa(),this.recaudos.getOrDefault(servicio.getEmpresa(),0.00) + servicio.getPrecio());
             } catch(AsientoOcupadoException e){
-                System.out.println(e.getMessage());
                 servicio.setEspera(pasajero);
+                System.out.println(e.getMessage() + " por lo que " + pasajero.getNombre() + " sera enviado/a a la lista de espera.");
             }
         }else{
             try{
@@ -43,9 +43,9 @@ public class Terminal {
                     pasaje.get().setPasajero(pasajero);
                 }
             } catch(NumberFormatException e){
-                System.out.println("El asiento ingresado no es valido, porfavor ingrese un numero o un *");
+                throw new NumberFormatException("El asiento ingresado no es valido, porfavor ingrese un numero o un *");
             } catch(AsientoOcupadoException e){
-                System.out.println(e.getMessage());
+                throw e;
             }
         }
     }
