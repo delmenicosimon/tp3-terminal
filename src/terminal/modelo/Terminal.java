@@ -31,13 +31,20 @@ public class Terminal {
                 System.out.println(e.getMessage());
                 servicio.setEspera(pasajero);
             }
-        }
-        try{
-            int numAsiento = Integer.parseInt(asiento.trim());
-            Pasaje pasaje = servicio.getPasaje(numAsiento);
-            pasaje.setPasajero(pasajero);
-        } catch(NumberFormatException e){
-            System.out.println("El asiento ingresado no es valido, porfavor ingrese un numero o un *");
+        }else{
+            try{
+                int numAsiento = Integer.parseInt(asiento.trim());
+                Optional<Pasaje> pasaje = servicio.getPasaje(numAsiento);
+                if(pasaje.isEmpty()){
+                    System.out.println("El numero de asiento : " + numAsiento + " no existe en este servicio : " + servicio.getCodigo());
+                }else{
+                    pasaje.get().setPasajero(pasajero);
+                }
+            } catch(NumberFormatException e){
+                System.out.println("El asiento ingresado no es valido, porfavor ingrese un numero o un *");
+            } catch(AsientoOcupadoException e){
+                System.out.println(e.getMessage());
+            }
         }
     }
 
