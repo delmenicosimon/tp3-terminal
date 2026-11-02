@@ -7,6 +7,13 @@ import terminal.modelo.*;
 
 public class Main {
     public static void main(String[] args) {
+
+        Terminal terminal = new Terminal();
+        terminal.setServicio(new Servicio("NEC-MDP-0700", "Costera", "Mar del Plata", "07:00", 4, 12000.00));
+        terminal.setServicio(new Servicio("NEC-BA-2200", "Atlántica", "Buenos Aires", "22:00", 6, 38000.00));
+        terminal.setServicio(new Servicio("NEC-TAN-0930", "Costera", "Tandil", "09:30", 3, 9500.00));
+        terminal.setServicio(new Servicio("NEC-TRA-1400", "Atlántica", "Tres Arroyos", "14:00", 5, 21000.00));
+
         int numeroRenglon = 0;
         int cantVentas = 0;
         String archivo = "ventas.txt";
@@ -22,15 +29,5 @@ public class Main {
         } catch (IOException e){
             System.out.println("Error con la lectura del archivo: " + archivo );
         }
-        Servicio servicio = new Servicio("ELPEPE", "ete sech seguros", "bolivia", "10:30",1,10000.00);
-        Pasajero pasajero = new Pasajero("30000000","Juan");
-        Pasajero pasajero2 = new Pasajero("33333333","Eugenio");
-        Terminal terminal = new Terminal();
-        terminal.setServicio(servicio);
-        terminal.venderPasaje("ELPEPE", pasajero, "1");
-        terminal.venderPasaje("ELPEPE", pasajero2, "*");
-        terminal.showPasajeros("ELPEPE");
-        terminal.showRecaudos();
-
     }
 }
