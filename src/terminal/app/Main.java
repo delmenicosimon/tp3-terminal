@@ -26,9 +26,10 @@ public class Main {
         return datos;
     }
 
-    public static void procesarArchivo(String archivo,Terminal terminal){
+    public static void procesarArchivo(String archivo,Terminal terminal,ListaDeEspera<String> listaMensajes){
         int numeroRenglon = 0;
         int cantVentas = 0;
+        int renglonesRechazados = 0;
 
         try (BufferedReader lector = new BufferedReader(new FileReader(archivo))) {
             String linea; 
@@ -40,24 +41,28 @@ public class Main {
                     terminal.venderPasaje(datos.get(0), pasajero, datos.get(3));
                     cantVentas++;
                 } catch(IllegalArgumentException e){
-                    System.out.println("Linea " + numeroRenglon + " " + e.getMessage());
+                    listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    renglonesRechazados++;
                 } catch(ServicioNoExisteException e){
-                    System.out.println("Linea " + numeroRenglon + " " + e.getMessage());
+                    listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    renglonesRechazados++;
                 } catch(AsientoOcupadoException e){
-                    System.out.println("Linea " + numeroRenglon + " " + e.getMessage());
+                    listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    renglonesRechazados++;
                 }
             }
         } catch (FileNotFoundException e){
-            System.out.println("Error, no se encuentra el archivo : " + archivo );
+            listaMensajes.agregarEnLista("Error, no se encuentra el archivo : " + archivo );
             return;
         } catch (IOException e){
-            System.out.println("Ocurrio un error al procesar el archivo : " + archivo);
+            listaMensajes.agregarEnLista("Ocurrio un error al procesar el archivo : " + archivo);
             return;
         }
-        System.out.println("Renglones leidos : " + numeroRenglon);
-        System.out.println("Ventas realizadas : " + cantVentas);
-        System.out.println("Ventas rechazadas : " + (numeroRenglon - cantVentas));
-        System.out.println("Pasajeros en espera : " + terminal.cantEnEspera());
+        cantVentas -= terminal.cantEnEspera();
+        listaMensajes.agregarEnLista("Renglones leidos : " + numeroRenglon);
+        listaMensajes.agregarEnLista("Ventas realizadas : " + cantVentas);
+        listaMensajes.agregarEnLista("Ventas rechazadas : " + renglonesRechazados);
+        listaMensajes.agregarEnLista("Pasajeros en espera : " + terminal.cantEnEspera());
     }
 
     public static void imprimirPasaje(Optional<Pasaje> pasaje){
@@ -68,11 +73,19 @@ public class Main {
         }
     }
 
+    public static void imprimirLista(ListaDeEspera<String> listaMensajes){
+        while(listaMensajes.peekPrimeroEnLista().isPresent()){
+            System.out.println(listaMensajes.getPrimeroEnLista().get());
+        }
+    }
+
     public static void main(String[] args) {
         Terminal terminal = new Terminal();
         cargarServicios(terminal);
-        procesarArchivo("ventas.txt",terminal);
-        procesarArchivo("vienentas.txt",terminal);
+        ListaDeEspera<String> listaDeMensajes = new ListaDeEspera<>(50);
+        procesarArchivo("ventas.txt",terminal,listaDeMensajes);
+        procesarArchivo("vienentas.txt",terminal,listaDeMensajes);
+        imprimirLista(listaDeMensajes);
         terminal.devolverPasajePorAsiento("NEC-MDP-0700", 2);
         terminal.showPasajeros("NEC-MDP-0700");
         terminal.showRecaudos();
