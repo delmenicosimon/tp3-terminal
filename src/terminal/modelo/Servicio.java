@@ -1,8 +1,6 @@
 package terminal.modelo;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.ArrayDeque;
 import java.util.Optional;
 
