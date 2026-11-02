@@ -109,6 +109,7 @@ public class Servicio {
 		throw new AsientoOcupadoException(this.codigo,nroAsiento);
 	}
 
+
 	public Optional<Pasaje> getPasajePorDni(String dni){
 		for(Pasaje pasaje : this.pasajes){
 			if(dni.equals(pasaje.getPasajero().getDni())){
