@@ -4,16 +4,19 @@ import java.util.Objects;
 
 public class Pasajero {
     private String dni;
-    private  String nombre; 
-
+    private String nombre; 
 
     public Pasajero (String dni, String nombre){
         this.dni = dni.trim();
         this.nombre = nombre.trim();
     }
 
+    public String getNombre() {
+        return nombre;
 
-    public String getdni() {
+    }
+   
+    public String getDni() {
         return dni;
 
     }
