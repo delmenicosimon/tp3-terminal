@@ -1,7 +1,6 @@
 package terminal.modelo;
 
 import java.util.ArrayList;
-import java.util.ArrayDeque;
 import java.util.Optional;
 
 public class Servicio {
@@ -12,7 +11,7 @@ public class Servicio {
 	private int cantAsientos;
 	private double precio;
 	private ArrayList<Pasaje> pasajes;
-	private ArrayDeque<Pasajero> listaDeEspera;
+	private ListaDeEspera<Pasajero> listaDeEspera;
 
 	public Servicio(String codigo, String empresa, String destino, String horario, int cantAsientos, double precio) {
 		this.codigo = codigo.trim().toUpperCase();
@@ -22,7 +21,12 @@ public class Servicio {
 		setCantAsientos(cantAsientos);
 		setPrecio(precio);
 		crearPasajes();
-		this.listaDeEspera = new ArrayDeque<>();
+		this.listaDeEspera = new ListaDeEspera<Pasajero>(5);
+	}
+
+	public Servicio(String codigo, String empresa, String destino, String horario, int cantAsientos, double precio,int capacidad) {
+		this(codigo,empresa,destino,horario,cantAsientos,precio);	
+		this.listaDeEspera = new ListaDeEspera<Pasajero>(capacidad);
 	}
 
 	private void setCantAsientos(int cantAsientos) {
@@ -76,11 +80,11 @@ public class Servicio {
 					"El asiento : " + nroAsiento + " no existe en el servicio : " + this.codigo);
 		}
 		Pasaje pasaje = this.pasajes.get(nroAsiento - 1);
-		if (this.listaDeEspera.peek() != null) {
-			Pasajero pasajero = this.listaDeEspera.poll();
-			pasaje.setPasajero(pasajero);
-		} else {
+		Optional<Pasajero> optPasajero= this.listaDeEspera.getPrimeroEnLista();
+		if(optPasajero.isEmpty()){
 			pasaje.setPasajero(null);
+		}else{
+			pasaje.setPasajero(optPasajero.get());
 		}
 	}
 
@@ -111,7 +115,7 @@ public class Servicio {
 		return Optional.empty();
 	}
 
-	public ArrayDeque<Pasajero> getListaDeEspera(){
+	public ListaDeEspera<Pasajero> getListaDeEspera(){
 		return this.listaDeEspera;
 	}
 
@@ -121,8 +125,8 @@ public class Servicio {
 
 	public void setEspera(Pasajero pasajero){
 		try{
-			this.listaDeEspera.offer(pasajero);
-		}catch(IndexOutOfBoundsException e){
+			this.listaDeEspera.agregarEnLista(pasajero);
+		}catch(ListaLlenaException e){
 			System.out.println(e.getMessage());
 		}
 	}
