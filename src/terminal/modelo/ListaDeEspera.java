@@ -44,6 +44,10 @@ public class ListaDeEspera<T>{
         return this.lista.size();
     }
 
+    public ArrayDeque<T> getLista(){
+        return this.lista;
+    }
+
     @Override 
     public String toString(){
         return "Lista de espera de tamaño : " + capacidad + "con : " + this.cantEnLista() + " elementos actualmente.";
