@@ -26,7 +26,7 @@ public class Terminal {
             try{
                 pasaje = servicio.getPasaje();
                 pasaje.setPasajero(pasajero);
-                System.out.println("Hola");
+                this.recaudos.put(servicio.getEmpresa(),this.recaudos.getOrDefault(servicio.getEmpresa(),0.00) + servicio.getPrecio());
             } catch(AsientoOcupadoException e){
                 System.out.println(e.getMessage());
                 servicio.setEspera(pasajero);
@@ -48,31 +48,26 @@ public class Terminal {
             System.out.println("No se encotro el servicio con el codigo: " + codigoServicio);
             return;
         }
+
+        System.out.println("Pasajeros del servicio : " + codigoServicio);
         for(Pasaje pasaje : servicio.getPasajes()){
-            if(pasaje.asientoLibre()) {
-                System.out.println("Asiento: " + pasaje.getNumAsiento() + "esta libre");
-            }else {
-                System.out.println("Asiento: " + pasaje.getNumAsiento() + " DNI Pasajero: " + pasaje.getPasajero().getDni() +  "Nombre Pasajero: " + pasaje.getPasajero().getNombre());
+            if(!pasaje.asientoLibre()) {
+                System.out.println("Asiento : " + pasaje.getNumAsiento() + "\t DNI Pasajero : " + pasaje.getPasajero().getDni() +  " \tNombre Pasajero : " + pasaje.getPasajero().getNombre());
             }
         }
 
-        if (servicio.getListaDeEspera().isEmpty()){
+        if (servicio.getListaDeEspera().cantEnLista() == 0){
             System.out.println("La lista de espera esta vacia");
         }else{
-            for(Pasajero pasajero : servicio.getListaDeEspera()){
-                System.out.println("DNI: " + pasajero.getDni() + "Nombre: " + pasajero.getNombre());
+            for(Pasajero pasajero : servicio.getListaDeEspera().getLista()){
+                System.out.println("DNI : " + pasajero.getDni() + " Nombre : " + pasajero.getNombre());
             }
         }
     }
 
-    public static void main(String args[]){
-        Servicio servicio = new Servicio("ELPEPE", "ete sech seguros", "bolivia", "10:30", 1,10000.00);
-        Pasajero pasajero = new Pasajero("30000000","Juan");
-        Pasajero pasajero2 = new Pasajero("33333333","Eugenio");
-        Terminal terminal = new Terminal();
-        terminal.setServicio(servicio);
-        terminal.venderPasaje("ELPEPE", pasajero, "*");
-        terminal.venderPasaje("ELPEPE", pasajero2, "*");
+    public void showRecaudos(){
+        for(Map.Entry<String,Double> empresa: this.recaudos.entrySet()){
+            System.out.println("Empresa : " + empresa.getKey() + "\t recaudo : " + empresa.getValue());
+        }
     }
-
 }
