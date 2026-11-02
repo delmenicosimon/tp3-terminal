@@ -21,11 +21,13 @@ public class Terminal {
         if(servicio == null){
             throw new ServicioNoExisteException(codigoServicio);
         }
+        Optional<Pasaje> pasaje;
         if(asiento.trim() == "*") {
-            Pasaje pasaje;
             try{
                 pasaje = servicio.getPasaje();
-                pasaje.setPasajero(pasajero);
+                if(pasaje.isPresent()){
+                    pasaje.get().setPasajero(pasajero);
+                }
                 this.recaudos.put(servicio.getEmpresa(),this.recaudos.getOrDefault(servicio.getEmpresa(),0.00) + servicio.getPrecio());
             } catch(AsientoOcupadoException e){
                 System.out.println(e.getMessage());
@@ -34,7 +36,7 @@ public class Terminal {
         }else{
             try{
                 int numAsiento = Integer.parseInt(asiento.trim());
-                Optional<Pasaje> pasaje = servicio.getPasaje(numAsiento);
+                pasaje = servicio.getPasaje(numAsiento);
                 if(pasaje.isEmpty()){
                     System.out.println("El numero de asiento : " + numAsiento + " no existe en este servicio : " + servicio.getCodigo());
                 }else{
