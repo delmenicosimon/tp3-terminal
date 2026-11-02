@@ -41,29 +41,43 @@ public class Main {
                     terminal.venderPasaje(datos.get(0), pasajero, datos.get(3));
                     cantVentas++;
                 } catch(IllegalArgumentException e){
-                    listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
+                        listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    }
                     renglonesRechazados++;
                 } catch(ServicioNoExisteException e){
-                    listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
+                        listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    }
                     renglonesRechazados++;
                 } catch(AsientoOcupadoException e){
-                    listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
+                        listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
+                    }
                     renglonesRechazados++;
                 }
             }
         } catch (FileNotFoundException e){
-            listaMensajes.agregarEnLista("Error, no se encuentra el archivo : " + archivo );
+            if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
+                listaMensajes.agregarEnLista("Error, no se encuentra el archivo : " + archivo );
+            }
             return;
         } catch (IOException e){
-            listaMensajes.agregarEnLista("Ocurrio un error al procesar el archivo : " + archivo);
+            if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
+                listaMensajes.agregarEnLista("Ocurrio un error al procesar el archivo : " + archivo);
+            }
             return;
         }
         cantVentas -= terminal.cantEnEspera();
-        listaMensajes.agregarEnLista("Renglones leidos : " + numeroRenglon);
-        listaMensajes.agregarEnLista("Ventas realizadas : " + cantVentas);
-        listaMensajes.agregarEnLista("Ventas rechazadas : " + renglonesRechazados);
-        listaMensajes.agregarEnLista("Pasajeros en espera : " + terminal.cantEnEspera());
-    }
+        try{
+            listaMensajes.agregarEnLista("Renglones leidos : " + numeroRenglon);
+            listaMensajes.agregarEnLista("Ventas realizadas : " + cantVentas);
+            listaMensajes.agregarEnLista("Ventas rechazadas : " + renglonesRechazados);
+            listaMensajes.agregarEnLista("Pasajeros en espera : " + terminal.cantEnEspera());
+        } catch(ListaLlenaException e){
+            System.out.println(e.getMessage());
+        }
+      }
 
     public static void imprimirPasaje(Optional<Pasaje> pasaje){
         if(pasaje.isPresent()){

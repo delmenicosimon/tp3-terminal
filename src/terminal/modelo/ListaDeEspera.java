@@ -19,6 +19,10 @@ public class ListaDeEspera<T>{
         this.capacidad = capacidad;
     }
 
+    public int getCapacidad() {
+        return capacidad;
+    }
+
     public Optional<T> getPrimeroEnLista(){
         if(this.lista.peek() == null){
             return Optional.empty();
