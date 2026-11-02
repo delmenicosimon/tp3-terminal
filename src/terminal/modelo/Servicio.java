@@ -106,7 +106,7 @@ public class Servicio {
 
 	public Optional<Pasaje> getPasajePorDni(String dni){
 		for(Pasaje pasaje : this.pasajes){
-			if(dni.equals(pasaje.getPasajero())){
+			if(dni.equals(pasaje.getPasajero().getDni())){
 				return Optional.ofNullable(pasaje);
 			}
 		}
