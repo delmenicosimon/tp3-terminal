@@ -19,7 +19,7 @@ public class Terminal {
     public void venderPasaje(String codigoServicio, Pasajero pasajero, String asiento){
         Servicio servicio = servicios.get(codigoServicio);
         if(servicio == null){
-            throw new IllegalArgumentException("No se puede encontrar el servicio: " + codigoServicio);
+            throw new ServicioNoExisteException(codigoServicio);
         }
         if(asiento.trim() == "*") {
             Pasaje pasaje;
@@ -31,6 +31,13 @@ public class Terminal {
                 System.out.println(e.getMessage());
                 servicio.setEspera(pasajero);
             }
+        }
+        try{
+            int numAsiento = Integer.parseInt(asiento.trim());
+            Pasaje pasaje = servicio.getPasaje(numAsiento);
+            pasaje.setPasajero(pasajero);
+        } catch(NumberFormatException e){
+            System.out.println("El asiento ingresado no es valido, porfavor ingrese un numero o un *");
         }
     }
 
@@ -59,6 +66,7 @@ public class Terminal {
         if (servicio.getListaDeEspera().cantEnLista() == 0){
             System.out.println("La lista de espera esta vacia");
         }else{
+            System.out.println("Lista de espera : ");
             for(Pasajero pasajero : servicio.getListaDeEspera().getLista()){
                 System.out.println("DNI : " + pasajero.getDni() + " Nombre : " + pasajero.getNombre());
             }
@@ -66,6 +74,7 @@ public class Terminal {
     }
 
     public void showRecaudos(){
+        System.out.println("Recaudos de empresas : ");
         for(Map.Entry<String,Double> empresa: this.recaudos.entrySet()){
             System.out.println("Empresa : " + empresa.getKey() + "\t recaudo : " + empresa.getValue());
         }

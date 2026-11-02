@@ -27,7 +27,7 @@ public class Main {
         Pasajero pasajero2 = new Pasajero("33333333","Eugenio");
         Terminal terminal = new Terminal();
         terminal.setServicio(servicio);
-        terminal.venderPasaje("ELPEPE", pasajero, "*");
+        terminal.venderPasaje("ELPEPE", pasajero, "tres");
         terminal.venderPasaje("ELPEPE", pasajero2, "*");
         terminal.showPasajeros("ELPEPE");
         terminal.showRecaudos();
