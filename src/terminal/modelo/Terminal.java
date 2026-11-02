@@ -25,7 +25,7 @@ public class Terminal {
             Pasaje pasaje;
             try{
                 pasaje = servicio.getPasaje();
-                pasaje.setDni(pasajero.getdni());
+                pasaje.setPasajero(pasajero);
                 System.out.println("Hola");
             } catch(AsientoOcupadoException e){
                 System.out.println(e.getMessage());
@@ -39,7 +39,7 @@ public class Terminal {
         if (servicio == null) {
             return Optional.empty();
         }
-        return Optional.ofNullable(servicio.getPasajePorDni(dni));
+        return servicio.getPasajePorDni(dni);
     }
 
     public void showPasajeros(String codigoServicio) {
@@ -52,7 +52,7 @@ public class Terminal {
             if(pasaje.asientoLibre()) {
                 System.out.println("Asiento: " + pasaje.getNumAsiento() + "esta libre");
             }else {
-                System.out.println("Asiento: " + pasaje.getNumAsiento() + " DNI Pasajero: " + pasaje.getPasajero() +  "Nombre Pasajero: " pasajero.getNombre);
+                System.out.println("Asiento: " + pasaje.getNumAsiento() + " DNI Pasajero: " + pasaje.getPasajero().getDni() +  "Nombre Pasajero: " + pasaje.getPasajero().getNombre());
             }
         }
 
@@ -60,7 +60,7 @@ public class Terminal {
             System.out.println("La lista de espera esta vacia");
         }else{
             for(Pasajero pasajero : servicio.getListaDeEspera()){
-                System.out.println("DNI: " + pasajero.getdni() + "Nombre: " + pasajero.getNombre);
+                System.out.println("DNI: " + pasajero.getDni() + "Nombre: " + pasajero.getNombre());
             }
         }
     }
