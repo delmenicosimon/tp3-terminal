@@ -97,11 +97,14 @@ public class Servicio {
 		throw new AsientoOcupadoException(this.codigo);
 	}
 	
-	public Pasaje getPasaje(int nroAsiento) throws AsientoOcupadoException{
+	public Optional<Pasaje> getPasaje(int nroAsiento) throws AsientoOcupadoException{
 		for(Pasaje pasaje : this.pasajes){
 			if(pasaje.getNumAsiento() == nroAsiento && pasaje.asientoLibre()){
-				return pasaje;
+				return Optional.ofNullable(pasaje);
 			}
+		}
+		if(this.pasajes.size() < nroAsiento){
+			return Optional.empty();
 		}
 		throw new AsientoOcupadoException(this.codigo,nroAsiento);
 	}
