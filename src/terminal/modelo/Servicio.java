@@ -88,10 +88,10 @@ public class Servicio {
 		}
 	}
 
-	public Pasaje getPasaje() throws AsientoOcupadoException{
+	public Optional<Pasaje> getPasaje() throws AsientoOcupadoException{
 		for(Pasaje pasaje : this.pasajes){
 			if(pasaje.asientoLibre()){
-				return pasaje;
+				return Optional.ofNullable(pasaje);
 			}
 		}
 		throw new AsientoOcupadoException(this.codigo);
