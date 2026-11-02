@@ -34,4 +34,12 @@ public class Pasaje {
             return false;
         }
     }
+
+    @Override 
+    public String toString(){
+        if(this.getPasajero() == null){
+            return "Pasaje : Numero de asiento : " + this.getNumAsiento() + "\t esta libre." ;
+        }
+        return "Pasaje : Numero de asiento : " + this.getNumAsiento() + "\t" + this.getPasajero(); 
+    }
 }

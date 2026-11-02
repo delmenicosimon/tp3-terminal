@@ -28,9 +28,15 @@ public class Pasajero {
         Pasajero pasajero = (Pasajero) o;
         return Objects.equals(dni, pasajero.dni);
     }
-        @Override
+
+    @Override
     public int hashCode() {
         return Objects.hash(dni);
+    }
+
+    @Override 
+    public String toString(){
+        return "Pasajero : " + this.getNombre() + " DNI : " + this.getDni();
     }
 }
 
