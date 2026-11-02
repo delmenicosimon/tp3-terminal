@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.util.Optional;
 import java.util.List;
 
 import terminal.modelo.*;
@@ -24,7 +25,7 @@ public class Main {
         }
         return datos;
     }
-    
+
     public static void procesarArchivo(String archivo,Terminal terminal){
         int numeroRenglon = 0;
         int cantVentas = 0;
@@ -37,6 +38,7 @@ public class Main {
                     List<String> datos = procesarLinea(linea, ";");
                     Pasajero pasajero = new Pasajero(datos.get(1),datos.get(2));
                     terminal.venderPasaje(datos.get(0), pasajero, datos.get(3));
+                    cantVentas++;
                 } catch(IllegalArgumentException e){
                     System.out.println("Linea " + numeroRenglon + " " + e.getMessage());
                 } catch(ServicioNoExisteException e){
@@ -52,12 +54,31 @@ public class Main {
             System.out.println("Ocurrio un error al procesar el archivo : " + archivo);
             return;
         }
+        System.out.println("Renglones leidos : " + numeroRenglon);
+        System.out.println("Ventas realizadas : " + cantVentas);
+        System.out.println("Ventas rechazadas : " + (numeroRenglon - cantVentas));
+        System.out.println("Pasajeros en espera : " + terminal.cantEnEspera());
+    }
 
+    public static void imprimirPasaje(Optional<Pasaje> pasaje){
+        if(pasaje.isPresent()){
+            System.out.println(pasaje.get());
+        }else{
+            System.out.println("el pasajero no tiene este pasaje");
+        }
     }
 
     public static void main(String[] args) {
         Terminal terminal = new Terminal();
         cargarServicios(terminal);
         procesarArchivo("ventas.txt",terminal);
-    }
+        procesarArchivo("vienentas.txt",terminal);
+        terminal.devolverPasajePorAsiento("NEC-MDP-0700", 2);
+        terminal.showPasajeros("NEC-MDP-0700");
+        terminal.showRecaudos();
+        Optional<Pasaje> pasajeAna = terminal.buscarPasaje("NEC-TRA-1400", "30111222");
+        Optional<Pasaje> pasajeBruno = terminal.buscarPasaje("NEC-TRA-1400", "40123456");
+        imprimirPasaje(pasajeAna);
+        imprimirPasaje(pasajeBruno);
+    }   
 }

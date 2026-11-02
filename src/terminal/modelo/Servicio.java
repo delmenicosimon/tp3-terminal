@@ -84,7 +84,9 @@ public class Servicio {
 		if(optPasajero.isEmpty()){
 			pasaje.setPasajero(null);
 		}else{
-			pasaje.setPasajero(optPasajero.get());
+			Pasajero pasajero = optPasajero.get();
+			pasaje.setPasajero(pasajero);
+			System.out.println("El pasajero : " + pasajero.getNombre() + " dni : " + pasajero.getDni() + " se queda con el asiento " + nroAsiento + " del servicio : " + this.getCodigo());
 		}
 	}
 
@@ -112,8 +114,10 @@ public class Servicio {
 
 	public Optional<Pasaje> getPasajePorDni(String dni){
 		for(Pasaje pasaje : this.pasajes){
-			if(dni.equals(pasaje.getPasajero().getDni())){
-				return Optional.ofNullable(pasaje);
+			if(pasaje.getPasajero() != null){
+				if(dni.equals(pasaje.getPasajero().getDni())){
+					return Optional.ofNullable(pasaje);
+				}
 			}
 		}
 		return Optional.empty();

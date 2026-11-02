@@ -14,6 +14,14 @@ public class Terminal {
 
     public void setServicio(Servicio servicio){
         this.servicios.put(servicio.getCodigo(),servicio);
+    }  
+    
+    public int cantEnEspera(){
+        int cantEspera = 0;
+        for(Map.Entry<String,Servicio> servicio : this.servicios.entrySet()){
+            cantEspera += servicio.getValue().getListaDeEspera().cantEnLista();
+        }
+        return cantEspera;
     }
     
     public void venderPasaje(String codigoServicio, Pasajero pasajero, String asiento) throws AsientoOcupadoException{
@@ -41,12 +49,28 @@ public class Terminal {
                     System.out.println("El numero de asiento : " + numAsiento + " no existe en este servicio : " + servicio.getCodigo());
                 }else{
                     pasaje.get().setPasajero(pasajero);
+                    this.recaudos.put(servicio.getEmpresa(),this.recaudos.getOrDefault(servicio.getEmpresa(),0.00) + servicio.getPrecio());
                 }
             } catch(NumberFormatException e){
                 throw new NumberFormatException("El asiento ingresado no es valido, porfavor ingrese un numero o un *");
             } catch(AsientoOcupadoException e){
                 throw e;
             }
+        }
+    }
+
+    public void devolverPasajePorAsiento(String codigo, int nroAsiento){
+        Servicio servicio = this.servicios.get(codigo);
+        if(servicio == null){
+            throw new ServicioNoExisteException(codigo);
+        }
+        try{
+            servicio.devolverPasaje(nroAsiento);
+            if(servicio.getListaDeEspera().cantEnLista() == 0){
+                this.recaudos.put(servicio.getEmpresa(),this.recaudos.getOrDefault(servicio.getEmpresa(), 0.00) - servicio.getPrecio());
+            }
+        } catch(IndexOutOfBoundsException e){
+            System.out.println("El asiento : " + nroAsiento + " no existe en el servicio : " + codigo);
         }
     }
 
