@@ -2,6 +2,7 @@ package terminal.modelo;
 import java.util.Map;
 import java.util.Optional;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Terminal {
     private Map<String, Servicio> servicios;
@@ -100,7 +101,9 @@ public class Terminal {
             System.out.println("La lista de espera esta vacia");
         }else{
             System.out.println("Lista de espera : ");
-            for(Pasajero pasajero : servicio.getListaDeEspera().getLista()){
+            Iterator<Pasajero> lista = servicio.getListaDeEspera().getLista();
+            while(lista.hasNext()){
+                Pasajero pasajero = lista.next();
                 System.out.println("DNI : " + pasajero.getDni() + " Nombre : " + pasajero.getNombre());
             }
         }

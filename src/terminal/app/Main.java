@@ -26,6 +26,12 @@ public class Main {
         return datos;
     }
 
+    public static void agregarMensajeLista(ListaDeEspera<String> lista, String mensaje){
+        if(lista.getCapacidad() != lista.cantEnLista()){
+            lista.agregarEnLista(mensaje);
+        }
+    }
+
     public static void procesarArchivo(String archivo,Terminal terminal,ListaDeEspera<String> listaMensajes){
         int numeroRenglon = 0;
         int cantVentas = 0;
@@ -41,39 +47,29 @@ public class Main {
                     terminal.venderPasaje(datos.get(0), pasajero, datos.get(3));
                     cantVentas++;
                 } catch(IllegalArgumentException e){
-                    if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
-                        listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
-                    }
+                    agregarMensajeLista(listaMensajes,"Linea " + numeroRenglon + " " + e.getMessage());
                     renglonesRechazados++;
                 } catch(ServicioNoExisteException e){
-                    if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
-                        listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
-                    }
+                    agregarMensajeLista(listaMensajes,"Linea " + numeroRenglon + " " + e.getMessage());
                     renglonesRechazados++;
                 } catch(AsientoOcupadoException e){
-                    if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
-                        listaMensajes.agregarEnLista(("Linea " + numeroRenglon + " " + e.getMessage()));
-                    }
+                    agregarMensajeLista(listaMensajes,"Linea " + numeroRenglon + " " + e.getMessage());
                     renglonesRechazados++;
                 }
             }
         } catch (FileNotFoundException e){
-            if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
-                listaMensajes.agregarEnLista("Error, no se encuentra el archivo : " + archivo );
-            }
+            System.out.println("Error, no se encuentra el archivo : " + archivo );
             return;
         } catch (IOException e){
-            if(listaMensajes.getCapacidad() != listaMensajes.getLista().size()){
-                listaMensajes.agregarEnLista("Ocurrio un error al procesar el archivo : " + archivo);
-            }
+            System.out.println("Ocurrio un error al procesar el archivo : " + archivo);
             return;
         }
         cantVentas -= terminal.cantEnEspera();
         try{
-            listaMensajes.agregarEnLista("Renglones leidos : " + numeroRenglon);
-            listaMensajes.agregarEnLista("Ventas realizadas : " + cantVentas);
-            listaMensajes.agregarEnLista("Ventas rechazadas : " + renglonesRechazados);
-            listaMensajes.agregarEnLista("Pasajeros en espera : " + terminal.cantEnEspera());
+            agregarMensajeLista(listaMensajes,"Renglones leidos : " + numeroRenglon);
+            agregarMensajeLista(listaMensajes,"Ventas realizadas : " + cantVentas);
+            agregarMensajeLista(listaMensajes,"Ventas rechazadas : " + renglonesRechazados);
+            agregarMensajeLista(listaMensajes,"Pasajeros en espera : " + terminal.cantEnEspera());
         } catch(ListaLlenaException e){
             System.out.println(e.getMessage());
         }
@@ -97,12 +93,18 @@ public class Main {
         Terminal terminal = new Terminal();
         cargarServicios(terminal);
         ListaDeEspera<String> listaDeMensajes = new ListaDeEspera<>(50);
+        System.out.println("--------------------PROCESANDO VENTAS--------------------");
         procesarArchivo("ventas.txt",terminal,listaDeMensajes);
         procesarArchivo("vienentas.txt",terminal,listaDeMensajes);
+        System.out.println("--------------------INFORME DE CARGA--------------------");
         imprimirLista(listaDeMensajes);
+        System.out.println("--------------------BRUNO DEVUELVE SU PASAJE--------------------");
         terminal.devolverPasajePorAsiento("NEC-MDP-0700", 2);
+        System.out.println("--------------------MOSTRANDO PASAJEROS--------------------");
         terminal.showPasajeros("NEC-MDP-0700");
+        System.out.println("--------------------MOSTRANDO RECAUDOS--------------------");
         terminal.showRecaudos();
+        System.out.println("--------------------BUSCANDO PASAJES--------------------");
         Optional<Pasaje> pasajeAna = terminal.buscarPasaje("NEC-TRA-1400", "30111222");
         Optional<Pasaje> pasajeBruno = terminal.buscarPasaje("NEC-TRA-1400", "40123456");
         imprimirPasaje(pasajeAna);
