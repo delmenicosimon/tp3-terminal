@@ -40,7 +40,6 @@ public class ListaDeEspera<T>{
             throw new ListaLlenaException("La lista esta llena, no se pudo agregar elemento : " + elemento);
         }
         this.lista.offer(elemento);
-        this.capacidad++;
     }
 
     public int cantEnLista(){
