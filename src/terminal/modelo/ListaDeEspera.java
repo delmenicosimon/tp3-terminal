@@ -1,6 +1,7 @@
 package terminal.modelo;
 
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.Optional;
 
 public class ListaDeEspera<T>{
@@ -39,6 +40,7 @@ public class ListaDeEspera<T>{
             throw new ListaLlenaException("La lista esta llena, no se pudo agregar elemento : " + elemento);
         }
         this.lista.offer(elemento);
+        this.capacidad++;
     }
 
     public int cantEnLista(){
@@ -48,13 +50,13 @@ public class ListaDeEspera<T>{
         return this.lista.size();
     }
 
-    public ArrayDeque<T> getLista(){
-        return this.lista;
+    public Iterator<T> getLista(){
+        return this.lista.iterator();
     }
 
     @Override 
     public String toString(){
-        return "Lista de espera de tamaño : " + capacidad + "con : " + this.cantEnLista() + " elementos actualmente.";
+        return "Lista de espera de tamaño : " + capacidad + " con : " + this.cantEnLista() + " elementos actualmente.";
     }
     
 }
